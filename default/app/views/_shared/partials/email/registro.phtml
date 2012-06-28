@@ -1,0 +1,9 @@
+Felicidades tu cuenta en <?php echo Config::get('config.application.name');?>
+ha sido creada Exitosamente...!!! 
+<ul>
+	<li>Usuario:  <strong><?php echo $user->login?></strong></li>
+    <li>Contraseña: <strong><?php echo $clave?></strong></li>
+</ul>
+<p>Para activar tu cuenta visita el siguiente link:
+<?php echo 'http://' .$_SERVER['SERVER_NAME'] . PUBLIC_PATH. "registro/activar/{$user->id}/{$hash}";?>
+        
