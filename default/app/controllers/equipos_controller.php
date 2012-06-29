@@ -18,6 +18,12 @@ class EquiposController extends AdminController {
         echo "listo eso lo hace carlos";
     }
     
+    public function editar()
+    {
+        echo "listo eso lo hace carlos";
+    }
+    
+    
     public function activar($id) {
         try {
             $id = (int) $id;
