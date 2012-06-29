@@ -9,7 +9,13 @@
 //View::partial('backend/barra_superior_listas',FALSE,array('texto' => 'Crear Menú'));
 $dt = new DataTable($equipos);
 $dt->addHeaders('Nombre', 'Bandera', 'Pais','Estado', 'Editar');
-$dt->addFields('nombre', 'bandera', 'paises');
+$dt->addFields('nombre');
+$dt->addFields(array(
+            'field' => 'bandera',
+            'boolean_field' => false,
+            'options' => array(Html::img('%s'))
+        ));
+$dt->addFields('paises');
 $dt->imgLink('figuras/circulo_rojo.png|figuras/circulo_verde.png',
         'equipos/activar|equipos/desactivar', '', 'activo');
 $dt->imgLink('figuras/editar.png', 'equipos/editar');
