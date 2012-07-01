@@ -6,22 +6,81 @@ class EquiposController extends AdminController {
      public function index($pagina = 1) {
         try {
             $equipos = new Equipos();
-            $this->equipos = $equipos->lista_equipos($pagina);
-            //print_r($this->equipos);exit;
+            
+            if (Input::hasPost('filtro')) {
+                $filtro =  Input::post('filtro');
+                $this->equipos = $equipos->listar($pagina,$filtro);
+            }else{
+                 $this->equipos = $equipos->listar($pagina);
+            }
         } catch (KumbiaException $e) {
             View::excepcion($e);
         }
     }
     
-    public function crear()
+    //Crear y Editar
+    public function guardar($id=null)
     {
-        echo "listo eso lo hace carlos";
+        try {
+            if($id){//editar
+                $id = (int) $id;
+                $equipos = new Equipos();
+                $this->equipos = $equipos->find_first($id);
+                if ($this->equipos) {
+                    if (Input::hasPost('equipos')) {
+                        if ($equipos->update(Input::post('equipos'))) {
+                            Flash::valid('El Equipo fué actualizado Exitosamente...!!!');
+                            return Router::redirect();
+                        } else {
+                            Flash::warning('No se Pudieron Guardar los Datos...!!!');
+                        }
+                    }
+                } else {
+                    Flash::warning("No existe ningun Equipo");
+                    return Router::redirect();
+                }
+            }else{//crear
+                if (Input::hasPost('equipos')) {
+                    $equipos = new Equipos(Input::post('equipos'));
+                    if ($equipos->save()) {
+                        Flash::valid('El Equipo fué agregado Exitosamente...!!!');
+                        return Router::redirect();
+                    } else {
+                        Flash::warning('No se Pudieron Guardar los Datos...!!!');
+                    }
+                }
+            }
+        } catch (KumbiaException $e) {
+            View::excepcion($e);
+        }
     }
     
-    public function editar()
+    /*
+    public function editar($id)
     {
-        echo "listo eso lo hace carlos";
-    }
+        try {
+            //View::select('crear');
+            $id = (int) $id;
+            $equipos = new Equipos();
+            $this->equipos = $equipos->find_first($id);
+
+            if ($this->equipos) {
+                if (Input::hasPost('equipos')) {
+                    if ($equipos->update(Input::post('equipos'))) {
+                        Flash::valid('El Equipo fué actualizado Exitosamente...!!!');
+                        return Router::redirect();
+                    } else {
+                        Flash::warning('No se Pudieron Guardar los Datos...!!!');
+                    }
+                }
+            } else {
+                Flash::warning("No existe ningun Equipo");
+                return Router::redirect();
+            }
+        } catch (KumbiaException $e) {
+            View::excepcion($e);
+        }
+    }*/
     
     
     public function activar($id) {
