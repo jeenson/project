@@ -1,12 +1,37 @@
 <div class="page-header">
     <h1>Listado de Equipos</h1>
 </div>
-<?php View::content() ?>
-<div class="well" style="padding: 8px;border-radius: 2px;">
-    <?php echo Html::linkAction('crear', 'Crear Equipo', 'class="btn btn-primary"') ?>
+
+<?php echo Form::open('equipos/') ?>
+<div class="row">
+    
+    <div class="span3">
+        <label for="filtro_nombre">Nombre</label>
+    </div>
+    
+    <div class="span3">
+        <label for="filtro_paises_id">Pais</label>
+    </div>
 </div>
+
+<div class="row">
+    <div class="span3">
+        <?php echo Form::text('filtro.nombre') ?>
+    </div>
+   
+    <div class="span3">
+        <?php echo Form::dbSelect('filtro.paises_id', 'nombre') ?>
+    </div>
+    
+    <div class="span3">
+        <?php echo Form::submit('Buscar', 'class="btn btn-primary"') ?>                
+        <?php echo Html::linkAction('', 'Todos', 'class="btn"') ?>   
+    </div>
+</div>
+<?php echo Form::close() ?>
+
+<?php View::content() ?>
 <?php
-//View::partial('backend/barra_superior_listas',FALSE,array('texto' => 'Crear Menú'));
 $dt = new DataTable($equipos);
 $dt->addHeaders('Nombre', 'Bandera', 'Pais','Estado', 'Editar');
 $dt->addFields('nombre');
@@ -18,7 +43,10 @@ $dt->addFields(array(
 $dt->addFields('paises');
 $dt->imgLink('figuras/circulo_rojo.png|figuras/circulo_verde.png',
         'equipos/activar|equipos/desactivar', '', 'activo');
-$dt->imgLink('figuras/editar.png', 'equipos/editar');
+$dt->imgLink('figuras/editar.png', 'equipos/guardar');
 echo $dt->render('class="table table-bordered table-striped"');
  
 ?>
+<div class="well" style="padding: 8px;border-radius: 2px;">
+    <?php echo Html::linkAction('guardar', 'Crear Equipo', 'class="btn btn-primary"') ?>
+</div>
