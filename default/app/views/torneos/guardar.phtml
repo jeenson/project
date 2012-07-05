@@ -1,0 +1,57 @@
+<div class="page-header">
+    <h1><?php eh('Crear Torneo') ?></h1>
+</div>
+
+<div class="span8 span-derecho" >
+        <div id="res-form-ajax"><?php View::content() ?></div>
+        <?php echo Form::open(NULL, 'post', 'id="form" class="form-horizontal"') ?>
+        <?php //echo Form::hidden('equipos.id') ?>
+        
+        <div class="control-group">
+            <label class="control-label" for="torneos_nombre">Nombre : </label>
+            <div class="controls">
+                <?php echo Form::text('torneos.nombre','class="validate[required] text-input"') ?>
+                
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="torneos_logo">Logo : </label>
+            <div class="controls">
+                <?php echo Form::text('torneos.logo','class="validate[required] text-input"') ?>
+                
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="torneos_tipo_torneo">Tipo de Torneo : </label>
+            <div class="controls">
+                <?php echo Form::select('torneos.tipo_torneo',array(''=>'Seleccione', 'nacional'=>'Nacional','internacional'=>'Internacional'),'class="validate[required]"');?>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <label class="control-label" for="torneos_fecha_ini">Fecha Inicio: </label>
+            <div class="controls">
+                <?php echo Form::date('torneos.fecha_ini','validate[required]') ?>
+            </div>
+        </div>
+        
+        <div class="form-actions">
+            <?php echo Form::submit('Guardar', 'class="btn btn-primary"') ?>
+            <?php echo Html::linkAction('', 'Cancelar', 'class="btn"') ?>
+        </div>
+    <?php echo Form::close() ?>
+</div>
+<?php 
+    Tag::css('validationEngine.jquery');
+    echo Html::includeCss();
+?>
+
+<?php echo Tag::js('validacion/jquery.validationEngine');?>
+<?php echo Tag::js('validacion/jquery.validationEngine-es');?>
+<script type="text/javascript" >
+    $(function(){
+        jQuery("#form").validationEngine();
+    });
+</script>
