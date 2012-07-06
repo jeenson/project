@@ -28,6 +28,18 @@ class Equipos extends ActiveRecord {
         return sizeof($condiciones) ? join(' AND ', $condiciones) : 'TRUE';
     }
     
+    /*
+     * Funcion que busca todos los equipos por pais
+     * 
+     * @return mapeo de los equipos encontrados 
+     */
+    public function buscarByPais($pais_id){
+        $sqlQuery = "SELECT equipos.id, equipos.nombre, equipos.bandera
+                    FROM equipos
+                    WHERE equipos.paises_id=$pais_id ";
+        return $this->find_all_by_sql($sqlQuery);
+    }
+    
     
     
 

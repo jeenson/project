@@ -1,0 +1,18 @@
+<?php
+    View::partial('backend/barra_superior_listas', FALSE, array('texto' => 'Agregar', 'opciones' => FALSE));
+?>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr style="text-align:center;font-weight:bold;">
+            <th></th>
+            <th>Nombre Equipo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <?php if($equipos){?>
+        <tr></tr>
+        <?php }else{?>
+        <tr><td colspan="100">La Consulta no Arrojó Ningun Registro</td></tr>
+        <?php }?>
+    </tbody>
+</table>

@@ -3,5 +3,37 @@
 </div>
 
 <div class="span8 span-derecho" >
+    <div class="form-horizontal">
         <div id="res-form-ajax"><?php View::content() ?></div>
+
+        <div class="control-group">
+            <label class="control-label" for="torneos_paises_id">Pais : </label>
+            <div class="controls">
+                <?php echo Form::dbselect('torneos.paises_id','nombre',null,'seleccione','class="validate[required]"');?>
+            </div>
+        </div>
+        
+        <div class="control-group">
+            <div class="controls" id="equipos">
+                
+            </div>
+        </div>
+    </div>
 </div>
+
+<script type='text/javascript'>
+    
+    $("#torneos_paises_id").change(function(){
+        var pais_id =$('#torneos_paises_id').val();
+        $.ajax({
+          type: "POST",
+          url: "<?php echo PUBLIC_PATH . 'torneos/getEquipos/'; ?>",
+          data: "pais_id=" + pais_id,
+          success: function(html){
+            $("#equipos").html(html);
+          }
+        });
+    });
+    
+    
+</script>

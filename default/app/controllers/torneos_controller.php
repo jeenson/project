@@ -35,7 +35,21 @@ class TorneosController extends AdminController {
         }
     }
     
-    //Crear y Editar
+    /*
+     * listar equipos de acuerdo al pais
+     *  
+     */
+    public function getEquipos(){
+        View::template(NULL);
+        Load::model('equipos');
+        $equipos = new Equipos();
+        $this->equipos=$equipos->buscarByPais(Input::post('pais_id'));
+    }
+    
+    /*
+     * Crear y editar un torneo
+     * @param $id si es editar
+     */
     public function guardar($id=null)
     {
         try {
