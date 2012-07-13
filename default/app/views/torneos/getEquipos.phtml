@@ -18,7 +18,8 @@
         
         <tr>
             <td>
-                <?php echo Form::check("equipos_id", $equi->id)?>
+                <!--<input id="equipos_id.<?php echo $equi->id?>" class="checkequipo" name="equipos[]" type="checkbox" value="<?php echo $equi->id?>" />-->
+                <?php echo Form::check("equipos_id", $equi->id,'class="checkequipo"')?>
             </td>
             <td>
                 <?php echo $equi->nombre?>
@@ -33,3 +34,18 @@
         <?php }?>
     </tbody>
 </table>
+
+<script>
+
+$(document).ready(function (){
+   $(".checkequipo").click(function(){
+       if($(this).is(":checked")){
+           alert($(this).val()+' <-chequeado');
+       }else{
+           alert($(this).val()+' <-no chequeado');
+       }
+        
+    });
+   
+});
+</script>
