@@ -21,14 +21,14 @@ class TorneosController extends AdminController {
     public function asignar($id=null) 
     {
         try{
-                if(isset($id)){
-                    $id = (int) $id;
-                    $torneos = new Torneos();
-                    $this->torneos = $torneos->find_first($id);
-                }else{
-                    Flash::warning("No existe ningun Torneo");
-                    return Router::redirect();
-                }
+            if(isset($id)){
+                $id = (int) $id;
+                $torneos = new Torneos();
+                $this->torneos = $torneos->find_first($id);
+            }else{
+                Flash::warning("No existe ningun Torneo");
+                return Router::redirect();
+            }
             
         }  catch (KumbiaException $e) {
             View::excepcion($e);
@@ -41,9 +41,31 @@ class TorneosController extends AdminController {
      */
     public function getEquipos(){
         View::template(NULL);
+        $this->torneo_id = Input::post('torneo_id');
         Load::model('equipos');
         $equipos = new Equipos();
+        $torneos = new Torneos();
         $this->equipos=$equipos->buscarByPais(Input::post('pais_id'));
+        $this->checkEquipos = $torneos->buscarEquiposTorneos(Input::post('torneo_id'));
+    }
+    
+    /*
+     * guardar o eliminar los equipos del Torneo
+     *  
+     */
+    public function guardarEquipos(){
+        View::template(NULL);
+        $torneos = new Torneos();
+        if(Input::post('tipo')==1){
+            if($torneos->guardarEquipo(1,Input::post('equipo_id'),Input::post('torneo_id'))){
+                Flash::valid('Datos Actualizados');
+            }
+        }else{
+            if($torneos->guardarEquipo(2,Input::post('equipo_id'),Input::post('torneo_id'))){
+                Flash::valid('Datos Actualizados');
+            }
+        }
+        die();
     }
     
     /*

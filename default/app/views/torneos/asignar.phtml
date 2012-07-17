@@ -10,30 +10,54 @@
             <label class="control-label" for="torneos_paises_id">Pais : </label>
             <div class="controls">
                 <?php echo Form::dbselect('torneos.paises_id','nombre',null,'seleccione','class="validate[required]"');?>
+                <?php echo Form::hidden('torneo_id','',$torneos->id);?>
             </div>
         </div>
         
         <div class="control-group">
-            <div class="controls" id="equipos">
+            <div id="equipos" class="controls">
                 
             </div>
-        </div>
+        </div>  
     </div>
 </div>
 
 <script type='text/javascript'>
+    //Imagen en la petición Ajax
+    $('body').append($('<div>').attr('id', 'loading').append(
+        $('<img>').attr('src', '<?php echo PUBLIC_PATH.'img/ajax.gif' ?>').attr('alt', 'Loading...')
+      ).css({
+        position: 'absolute',
+        display: 'none'
+      })
+    );
+
+      // Reposicionado de la imagen
+      $(document).mousemove(function(e){
+        $('#loading').css({left: e.pageX + 10, top: e.pageY + 15});
+      });
+
+      // Eventos globales
+      $('#loading').bind('ajaxStart', function(){
+          $(this).show();
+        });
+        
+      $('#loading').bind('ajaxStop', function(){
+          $(this).hide();
+        });
+    
+    //fin iamgen petición ajax
     
     $("#torneos_paises_id").change(function(){
         var pais_id =$('#torneos_paises_id').val();
+        var torneo_id = $('#torneo_id').val();
         $.ajax({
           type: "POST",
           url: "<?php echo PUBLIC_PATH . 'torneos/getEquipos/'; ?>",
-          data: "pais_id=" + pais_id,
+          data: "pais_id=" + pais_id + "&torneo_id="+ torneo_id,
           success: function(html){
             $("#equipos").html(html);
           }
         });
     });
-    
-    
 </script>

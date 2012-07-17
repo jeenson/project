@@ -1,6 +1,3 @@
-<?php
-    //View::partial('backend/barra_superior_listas', FALSE, array('texto' => 'Agregar', 'opciones' => FALSE));
-?>
 <table class="table table-bordered table-striped">
     <thead>
         <tr style="text-align:center;font-weight:bold;">
@@ -18,8 +15,14 @@
         
         <tr>
             <td>
-                <!--<input id="equipos_id.<?php echo $equi->id?>" class="checkequipo" name="equipos[]" type="checkbox" value="<?php echo $equi->id?>" />-->
-                <?php echo Form::check("equipos_id", $equi->id,'class="checkequipo"')?>
+               <?php
+                    if(in_array($equi->id, $checkEquipos)){
+                        echo Form::check("equipos_id", $equi->id,'class="checkequipo"',true);
+                    }else{
+                        echo Form::check("equipos_id", $equi->id,'class="checkequipo"');
+                    }
+                    
+                ?>
             </td>
             <td>
                 <?php echo $equi->nombre?>
@@ -27,7 +30,7 @@
         </tr>
         <?php 
             }
-            echo Html::linkAction('torneos/agregarEquipos', 'Agregar', 'class="btn btn-primary"'); 
+             echo Form::hidden('torneo_id','',$torneo_id);
         }else{
         ?>
         <tr><td colspan="100">La Consulta no Arrojó Ningun Registro</td></tr>
@@ -40,11 +43,21 @@
 $(document).ready(function (){
    $(".checkequipo").click(function(){
        if($(this).is(":checked")){
-           alert($(this).val()+' <-chequeado');
+            var torneo_id = $('#torneo_id').val();
+            $.ajax({
+                  type: "POST",
+                  url: "<?php echo PUBLIC_PATH . 'torneos/guardarEquipos/'; ?>",
+                  data: "equipo_id=" + $(this).val() + "&torneo_id=" + torneo_id + "&tipo="+ 1 
+                  
+            });
        }else{
-           alert($(this).val()+' <-no chequeado');
+           var torneo_id = $('#torneo_id').val();
+            $.ajax({
+                  type: "POST",
+                  url: "<?php echo PUBLIC_PATH . 'torneos/guardarEquipos/'; ?>",
+                  data: "equipo_id=" + $(this).val() + "&torneo_id=" + torneo_id + "&tipo="+ 2 
+            });
        }
-        
     });
    
 });
