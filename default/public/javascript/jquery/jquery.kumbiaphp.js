@@ -54,11 +54,15 @@
                 dialogo.append(header);
                 dialogo.append(cuerpo);
                 dialogo.append(footer);
-                footer.append('<a class="btn" href="#modal_confirmar" data-toggle="modal">No</a>');
+                footer.append('<a class="respuesta-no btn" href="#modal_confirmar" data-toggle="modal">No</a>');
                 footer.append('<a class="respuesta-si btn btn-success">Si</a>');
                 $('.respuesta-si',dialogo).on('click',function(){
                     dialogo.modal('hide');
                     document.location.href = este.attr('href');
+                });
+                
+                $('.respuesta-no',dialogo).on('click',function(){
+                	location.reload();
                 });
             }
             $(".modal-body p" , dialogo).html(este.attr('title'));
